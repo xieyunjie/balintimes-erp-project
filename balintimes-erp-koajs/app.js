@@ -4,6 +4,7 @@ render = require("koa-ejs"),
 path = require('path'),
 serve = require('koa-static'),
 session = require('koa-generic-session'),
+mongoose = require('koa-mongoose'),
 logger = require("koa-logger");
 var app = koa();
 
@@ -18,6 +19,21 @@ require('./app/auth/auth');
 var passport = require('koa-passport');
 app.use(passport.initialize());
 app.use(passport.session());
+
+app.use(mongoose({
+    username: '',
+    password: '',
+    host: '172.16.0.250',
+    port: 27017,
+    database: 'my-website',
+    //schemas: __dirname + '/schemas',
+    db: {
+        native_parser: true
+    },
+    server: {
+        poolSize: 5
+    }
+}));
 
 
 render(app, {

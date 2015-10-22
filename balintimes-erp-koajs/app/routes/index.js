@@ -1,4 +1,8 @@
-var router = require("koa-router");
+var router = require("koa-router"),
+    koaMongoose = require("koa-mongoose");
+var mongoose = koaMongoose.mongoose;
+var userSchema = require("./Line");
+
 var route = new router({
     prefix: ''
 });
@@ -12,11 +16,13 @@ route.get("/about", function *(next) {
 });
 
 route.get("/info", function *(next) {
-    var result = {
-        title: 'aaa',
-        name: "ss"
-    };
-    this.body = result;
+
+    var Line = mongoose.model("Line",userSchema);
+
+    //var Line = this.model('lines');
+    var docs = yield Line.findQ();
+
+    this.body = docs;
 });
 
 
