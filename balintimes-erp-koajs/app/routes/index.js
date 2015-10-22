@@ -1,7 +1,8 @@
 var router = require("koa-router"),
     koaMongoose = require("koa-mongoose");
 var mongoose = koaMongoose.mongoose;
-var userSchema = require("./Line");
+var Line = mongoose.model("Line",require("./Line"));
+
 
 var route = new router({
     prefix: ''
@@ -17,9 +18,10 @@ route.get("/about", function *(next) {
 
 route.get("/info", function *(next) {
 
-    var Line = mongoose.model("Line",userSchema);
+    //var Line = mongoose.model("Line",userSchema);
 
-    //var Line = this.model('lines');
+    //var Line = this.model('Line');
+
     var docs = yield Line.findQ();
 
     this.body = docs;
