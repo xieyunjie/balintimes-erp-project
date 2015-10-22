@@ -3,12 +3,22 @@ bodyParse = require("koa-body"),
 render = require("koa-ejs"),
 path = require('path'),
 serve = require('koa-static'),
+session = require('koa-generic-session'),
 logger = require("koa-logger");
 var app = koa();
+
+app.keys = ['balintimes-session-secret'];
+app.use(session());
 
 app.use(logger());
 app.use(bodyParse());
 app.use(serve(path.join(__dirname, './static')));
+
+require('./app/auth/auth');
+var passport = require('koa-passport');
+app.use(passport.initialize());
+app.use(passport.session());
+
 
 render(app, {
     root: path.join(__dirname, './app/views'),
@@ -19,8 +29,10 @@ render(app, {
 });
 
 var homeroute = require("./app/routes/index"),
+loginroute = require("./app/login/login.server.route"),
 lineroute = require("./app/line/line.server.route");
 
+app.use(loginroute.routes());
 app.use(homeroute.routes());
 app.use(lineroute.routes());
 
@@ -45,14 +57,5 @@ app.use(function *pageNotFound(next) {
             this.body = 'Page Not Found';
     }
 });
-
-
-//app.use(route.all("/",homeroute));
-
-//app.use(route.get("/",indexView));
-//function *indexView(next){
-//    yield  this.render('index', { title: 'Express' });
-//}
-
 
 module.exports = app;
