@@ -1,13 +1,4 @@
-//var route = require("koa-route");
-//
-//route.get("/",indexView);
-//
-//
-//function *indexView(next){
-//  yield  this.render('index', { title: 'Express' });
-//}
-//
-//module.exports = route;
+
 var router = require("koa-router");
 var route = new router({
   prefix:''
