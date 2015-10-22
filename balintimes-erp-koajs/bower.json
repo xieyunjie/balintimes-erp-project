@@ -1,0 +1,25 @@
+{
+  "name": "balintimes-erp-koajs",
+  "version": "1.0.0",
+  "authors": [
+    "xieyunjie <yunjie.xie@hotmail.com>"
+  ],
+  "description": "balintimes-erp-koajs",
+  "main": "app.js",
+  "moduleType": [],
+  "keywords": [
+    "koa"
+  ],
+  "license": "MIT",
+  "homepage": "",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "bootstrap": "~3.3.5"
+  }
+}
