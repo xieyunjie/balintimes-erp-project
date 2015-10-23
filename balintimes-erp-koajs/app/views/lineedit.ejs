@@ -1,0 +1,24 @@
+<html>
+<body>
+<h1>111</h1>
+<form action="/line/save" method="post">
+
+    <input type="hidden" name ="uid" value="<%= line.uid %>">
+
+    <label>名称</label>
+    <input type="text" name="name" value="<%= line.name %>">
+    <br>
+
+    <label>城市</label>
+    <input type="text" name="cityname" value="<%= line.cityname %>">
+    <br>
+
+    <label>开通时间</label>
+    <input type="text" name="openingtime" value="<%= line.openingtime %>">
+    <br>
+
+    <input type="submit" value="submit">
+
+</form>
+</body>
+</html>

@@ -15,5 +15,10 @@ route.all("*",authCtrl.isAuthenticated);
 
 route.get("/", lineCtrl.lineIndex);
 route.post("/post",lineCtrl.create);
+route.get("/edit/:uid",lineCtrl.edit);
+route.post("/save",lineCtrl.save);
+route.get("/delete/:uid",lineCtrl.delete);
+route.get("/show",lineCtrl.show);
+
 
 module.exports = route;

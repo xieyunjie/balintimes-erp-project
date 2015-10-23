@@ -1,7 +1,7 @@
 var router = require("koa-router"),
     koaMongoose = require("koa-mongoose");
 var mongoose = koaMongoose.mongoose;
-var Line = mongoose.model("Line",require("./Line"));
+var Line = mongoose.model("Line", require("../../schemas/Line"));
 
 
 var route = new router({

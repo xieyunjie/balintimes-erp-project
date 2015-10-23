@@ -2,5 +2,33 @@
 <head>xx</head>
 <body>
 <h1><%= title %></h1>
+
+<a href="/line/edit/0">添加</a>
+<a href="/line/show?uid=112112&type=balintimes">QueryString</a>
+<!--<table style="BORDER-COLLAPSE: collapse" borderColor=#000000 cellPadding=1 width=900px align=center border=1">-->
+<table>
+    <thead>
+    <tr>
+        <th>No.</th>
+        <th>UID</th>
+        <th>名称</th>
+        <th>城市</th>
+        <th>开通时间</th>
+        <th></th>
+    </tr>
+    </thead>
+    <tbody>
+    <% for(var i = 0;i < lines.length;i++){ %>
+    <tr>
+        <td>1</td>
+        <td><a href="/line/edit/<%= lines[i].uid %>"><%= lines[i].uid %></a></td>
+        <td><%= lines[i].name %></td>
+        <td><%= lines[i].cityname %></td>
+        <td><%= lines[i].openingtime %></td>
+        <td><a href="/line/delete/<%= lines[i].uid %>">删除</a> </td>
+    </tr>
+    <% } %>
+    </tbody>
+</table>
 </body>
 </html>
