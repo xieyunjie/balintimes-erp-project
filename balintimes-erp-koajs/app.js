@@ -46,11 +46,13 @@ render(app, {
 
 var homeroute = require("./app/routes/index"),
 loginroute = require("./app/login/login.server.route"),
-lineroute = require("./app/line/line.server.route");
+lineroute = require("./app/line/line.server.route"),
+crmroute = require("./app/routes/crm");
 
 app.use(loginroute.routes());
 app.use(homeroute.routes());
 app.use(lineroute.routes());
+app.use(crmroute.routes());
 
 app.use(function *pageNotFound(next) {
     yield next;

@@ -14,9 +14,14 @@ readFile('/etc/fstab')(function(err,data){
 
 var gen = function* (){
   var r1 = yield readFile('/etc/fstab');
+  console.log("r1 == begin ");
   console.log(r1.toString());
+  console.log("r1 == end ");
+
+  console.log("r2 == begin ");
   var r2 = yield readFile('/etc/shells');
   console.log(r2.toString());
+  console.log("r2 == end ");
 };
 
 co(gen);
