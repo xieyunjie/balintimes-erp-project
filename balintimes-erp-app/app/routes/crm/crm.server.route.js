@@ -4,10 +4,26 @@
 
 var router = require("koa-router");
 var koaBody = require("koa-body");
+var wait = require("co-wait");
+var crmCtrl = require("./crm.server.controller");
 
 var route = new router({
     prefix: '/crm'
 });
+
+route.post("/sign",crmCtrl.sign);
+route.post("/register",crmCtrl.register);
+
+route.post("att", koaBody({
+    multipart: true,
+    formidable: {
+        uploadDir: 'uploads',
+        keepExtensions: true,
+        encoding: "utf-8",
+        maxFieldsSize: "2048"
+    }
+}),crmCtrl.uploadatt);
+
 
 route.post('/profile', koaBody({
         multipart: true,
@@ -28,16 +44,19 @@ route.post('/profile', koaBody({
             pagesize: 50,
             total: 100,
             data: ""
-        }
+        };
 
 
         this.body = result;
         console.log(JSON.stringify(this.request.body, null, 2));
-        yield next;
+        //yield next;
     }
 );
 
 route.get('/province', function*() {
+
+    yield wait(2*1000);
+
     var result = {
         success: true,
         message: '这个一个提示呵呵',
@@ -53,6 +72,7 @@ route.get('/province', function*() {
 });
 
 route.get('/cities/:id', function*() {
+    yield wait(2*1000);
 
     for (var i = 0; i < cities.length; i++) {
         if (cities[i].provinceid == this.params.id) {
