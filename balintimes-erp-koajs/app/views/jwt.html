@@ -4,8 +4,97 @@
     <meta charset="UTF-8">
     <title>jwt测试</title>
 </head>
-<body>
+<body ng-app="app">
 <h1>jwt</h1>
+<div ng-controller="appController">
+    <input type="text" name="username" ng-model="username">
+    <br>
+    <input type="password" name="password" ng-model="password">
+    <input type="button" value="提交" ng-click="signin()">
 
+    <br>
+    <span ng-bind="info | json"></span>
+    <br>
+
+    <input type="button" value="load" ng-click="load()">
+    <br>
+    <span ng-bind="loadinfo"></span>
+</div>
+<script type="text/javascript" src="//cdn.bootcss.com/angular.js/1.4.8/angular.min.js"></script>
+<script src="http://cdn.bootcss.com/ngStorage/0.3.10/ngStorage.min.js"></script>
+<script>
+    angular.module('app', [
+                'ngStorage'
+            ])
+            .config(['$httpProvider', function ($httpProvider) {
+
+                $httpProvider.interceptors.push(['$q', '$location', '$localStorage', function($q, $location, $localStorage) {
+                    return {
+                        'request': function (config) {
+                            config.headers = config.headers || {};
+                            if ($localStorage.token) {
+                                config.headers.Authorization = 'Bearer ' + $localStorage.token;
+                            }
+                            return config;
+                        },
+                        'responseError': function(response) {
+                            if(response.status === 401 || response.status === 403) {
+                                $location.path('/signin');
+                            }
+                            return $q.reject(response);
+                        }
+                    };
+                }]);
+            }])
+            .controller("appController", ["$scope","$http", "$localStorage", function ($scope,$http, $localStorage) {
+                $scope.info = "init";
+                $scope.loadinfo = "";
+                $scope.username = "";
+                $scope.password = "";
+
+                function getUserFromToken() {
+                    var token = $localStorage.token;
+                    var user = {};
+                    if (typeof token !== 'undefined') {
+                        var encoded = token.split('.')[1];
+                        user = JSON.parse(urlBase64Decode(encoded));
+                    }
+                    return user;
+                }
+
+                function urlBase64Decode(str) {
+                    var output = str.replace('-', '+').replace('_', '/');
+                    switch (output.length % 4) {
+                        case 0:
+                            break;
+                        case 2:
+                            output += '==';
+                            break;
+                        case 3:
+                            output += '=';
+                            break;
+                        default:
+                            throw 'Illegal base64url string!';
+                    }
+                    return window.atob(output);
+                }
+
+                $scope.signin = function(){
+                    $http.post("/jwt/sign",{username:$scope.username,password:$scope.password}).success(function(res){
+                        console.log(res);
+                        $localStorage.token = res.token;
+//                        console.info(getUserFromToken());
+                        $scope.info = getUserFromToken();
+                    })
+                };
+
+                $scope.load = function(){
+                    $http.get("/jwt/load").success(function(res){
+                        $scope.loadinfo = res;
+                    })
+                }
+
+            }]);
+</script>
 </body>
 </html>
