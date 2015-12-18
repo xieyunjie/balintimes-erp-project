@@ -3,56 +3,41 @@ bodyParse = require("koa-body"),
 render = require("koa-ejs"),
 path = require('path'),
 serve = require('koa-static'),
-session = require('koa-generic-session'),
-mongoose = require('koa-mongoose'),
-logger = require("koa-logger");
+logger = require("koa-logger"),
+session = require('koa-generic-session');
+
+var router = require("koa-router");
+
 var app = koa();
 
-app.keys = ['balintimes-session-secret'];
 app.use(session());
 
 app.use(logger());
 app.use(bodyParse());
 app.use(serve(path.join(__dirname, './static')));
 
-require('./app/auth/auth');
-var passport = require('koa-passport');
-app.use(passport.initialize());
-app.use(passport.session());
-
-app.use(mongoose({
-    username: '',
-    password: '',
-    host: '172.16.3.250',
-    port: 27017,
-    database: 'my-website',
-    //schemas: __dirname + '/schemas',
-    db: {
-        native_parser: true
-    },
-    server: {
-        poolSize: 5
-    }
-}));
 
 
 render(app, {
     root: path.join(__dirname, './app/views'),
     layout: false,
-    viewExt: 'ejs',
+    viewExt: 'html',
     cache: false,
     debug: true
 });
 
-var homeroute = require("./app/routes/index"),
-loginroute = require("./app/login/login.server.route"),
-lineroute = require("./app/line/line.server.route"),
-crmroute = require("./app/routes/crm");
+var route = new router({
+    prefix: ''
+});
 
-app.use(loginroute.routes());
-app.use(homeroute.routes());
-app.use(lineroute.routes());
-app.use(crmroute.routes());
+route.get("/jwt",function*(){
+    yield this.render("jwt");
+});
+
+app.use(route.routes());
+
+
+
 
 app.use(function *pageNotFound(next) {
     yield next;
