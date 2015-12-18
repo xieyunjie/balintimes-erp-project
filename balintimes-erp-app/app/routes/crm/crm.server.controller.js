@@ -10,7 +10,7 @@ var signCustomerController = {};
 signCustomerController.sign = function *(){
     var ctx = this;
 
-    console.dir(ctx.body);
+    console.dir(ctx.request.body);
 
     yield wait(1.5*1000);
 
@@ -20,7 +20,7 @@ signCustomerController.sign = function *(){
 signCustomerController.register = function *(){
     var ctx = this;
 
-    console.dir(ctx.body);
+    console.dir(ctx.request.body);
 
     yield wait(1.5*1000);
 

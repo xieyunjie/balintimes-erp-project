@@ -57,7 +57,7 @@ route.post("/sign", function *() {
         //	noTimestamp
         //	headers
 
-        var token = jwt.sign(result, jwtSecret);
+        var token = jwt.sign(result, jwtSecret,{ expiresInMinutes: 1,algorithm: "HS384"});
         result.token = token;
         console.info(token);
 
@@ -82,13 +82,35 @@ app.use(function *(next) {
     }
 });
 // 验证是否合法？
-app.use(jwt({ secret: jwtSecret }));
+app.use(jwt({ secret: jwtSecret, expiresInMinutes: 1 ,algorithm: "HS384"}));
+
+app.use(function*(next){
+
+    var req = this.request;
+    var bearerToken;
+    var bearerHeader = req.headers["authorization"];
+    if (typeof bearerHeader !== 'undefined') {
+        var bearer = bearerHeader.split(" ");
+        bearerToken = bearer[1];
+        req.token = bearerToken;
+   }
+    yield next;
+});
 
 var route2 = new router({
     prefix: '/jwt'
 });
 route2.get("/load", function *() {
     var ctx = this;
+    console.info(ctx.request.token);
+
+    var payload = jwt.verify(ctx.request.token, jwtSecret,{algorithm: "HS384"});
+    console.log(payload);
+    //jwt.verify(ctx.request.token,{secret: jwtSecret},function(err,payload){
+    //
+    //    console.log(err);
+    //    console.log(payload);
+    //});
 
     this.body ="success";
 });

@@ -14,7 +14,7 @@ var route = new router({
 route.post("/sign",crmCtrl.sign);
 route.post("/register",crmCtrl.register);
 
-route.post("att", koaBody({
+route.post("/att", koaBody({
     multipart: true,
     formidable: {
         uploadDir: 'uploads',
@@ -38,7 +38,7 @@ route.post('/profile', koaBody({
         console.log(this.request.body.fields);
         var result = {
             success: true,
-            message: '这个一个提示呵呵',
+            message: '上传成功',
             code: 200,
             page: 1,
             pagesize: 50,
