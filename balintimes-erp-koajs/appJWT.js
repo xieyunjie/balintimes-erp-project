@@ -7,7 +7,8 @@ var koa = require("koa"),
     session = require('koa-generic-session');
 
 var router = require("koa-router");
-var jwt = require("koa-jwt");
+var jwt = require("koa-jwt"),
+    unless = require("koa-unless");
 
 var app = koa();
 
@@ -63,8 +64,8 @@ route.post("/sign", function *() {
 
         this.body = result;
     }
-
 });
+
 app.use(route.routes());
 
 // 以上的中间件不会被验证
@@ -82,7 +83,7 @@ app.use(function *(next) {
     }
 });
 // 验证是否合法？
-app.use(jwt({ secret: jwtSecret, expiresInMinutes: 1 ,algorithm: "HS384"}));
+app.use(jwt({ secret: jwtSecret, expiresInMinutes: 1 ,algorithm: "HS384"}).unless({ path: ["/jwt/upload"] }));
 
 app.use(function*(next){
 
@@ -106,6 +107,20 @@ route2.get("/load", function *() {
 
     var payload = jwt.verify(ctx.request.token, jwtSecret,{algorithm: "HS384"});
     console.log(payload);
+    //jwt.verify(ctx.request.token,{secret: jwtSecret},function(err,payload){
+    //
+    //    console.log(err);
+    //    console.log(payload);
+    //});
+
+    this.body ="success";
+});
+route2.get("/upload", function *() {
+    //var ctx = this;
+    //console.info(ctx.request.token);
+    //
+    //var payload = jwt.verify(ctx.request.token, jwtSecret,{algorithm: "HS384"});
+    //console.log(payload);
     //jwt.verify(ctx.request.token,{secret: jwtSecret},function(err,payload){
     //
     //    console.log(err);

@@ -16,7 +16,8 @@
     <span ng-bind="info | json"></span>
     <br>
 
-    <input type="button" value="load" ng-click="load()">
+    <input type="button" value="load" ng-click="load()" >
+    <input type="button" value="upload" ng-click="upload()" >
     <br>
     <span ng-bind="loadinfo"></span>
 </div>
@@ -88,8 +89,14 @@
                     })
                 };
 
-                $scope.load = function(){
-                    $http.get("/jwt/load").success(function(res){
+                $scope.load = function() {
+                    $http.get("/jwt/load").success(function (res) {
+                        $scope.loadinfo = res;
+                    })
+                };
+
+                $scope.upload  = function(){
+                    $http.get("/jwt/upload").success(function (res) {
                         $scope.loadinfo = res;
                     })
                 }
