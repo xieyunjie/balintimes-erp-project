@@ -4,6 +4,10 @@ var koa = require("koa"),
     serve = require('koa-static'),
     session = require('koa-generic-session'),
     logger = require("koa-logger");
+
+var jwt = require("koa-jwt"),
+    authMiddleware = require("./app/middleware/auth.middleware");
+
 var app = koa();
 
 app.keys = ['balintimes-session-secret'];
@@ -12,6 +16,9 @@ app.use(session());
 app.use(logger());
 app.use(bodyParse());
 app.use(serve(path.join(__dirname, './static')));
+
+app.use(authMiddleware.jwtError);
+app.use(authMiddleware.jwtVerify());//.unless({ path:["/crm/province","/crm/cities/*"]});
 
 var crmroute = require("./app/routes/crm/crm.server.route");
 
@@ -38,5 +45,7 @@ app.use(function *pageNotFound(next) {
             this.body = 'Page Not Found';
     }
 });
+
+
 
 module.exports = app;

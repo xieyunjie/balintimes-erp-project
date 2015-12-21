@@ -5,27 +5,27 @@
 
 var util = {};
 
-util.retSuccess = function (){
+util.retSuccess = function (message,data){
 
     return  {
         success: true,
-        message: '操作成功',
+        message:  message == null ? '操作成功' : message,
         code: 200,
         page: 0,
         pagesize: 0,
         total: 0,
-        data: null
+        data: data
     };
 };
-util.retFailture = function () {
+util.retFailture = function (message, data) {
     return {
         success: false,
-        message: '操作失败',
+        message:  message == null ? '操作成功' : message,
         code: 200,
         page: 0,
         pagesize: 0,
         total: 0,
-        data: null
+        data: data
     };
 }
 
