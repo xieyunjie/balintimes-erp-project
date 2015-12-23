@@ -21,10 +21,12 @@ route.post("/signin", function *() {
     }
     else {
         var result = {
+            uid:"123456789",
             name: username,
             password: psw,
             redisToken: "78&*45$%"
         };
+
         //jwt.sign(payload, secretOrPrivateKey, options, [callback])
         //options --> //	algorithm (default: HS256)
         //	expiresIn: expressed in seconds or an string describing a time span rauchg/ms. Eg: 60, "2 days", "10h", "7d"
@@ -34,7 +36,6 @@ route.post("/signin", function *() {
         //	noTimestamp
         //	headers
 
-
         var token = jwt.sign(result, setting.jwt.secret, {
             expiresInMinutes: setting.jwt.expiresInMinutes,
             algorithm: setting.jwt.algorithm
@@ -42,13 +43,19 @@ route.post("/signin", function *() {
         result.token = token;
         console.info(token);
 
-        this.body = util.retSuccess(result);
+        this.body = util.retSuccess(null,result);
     }
 });
 
-route.post("/signout", function *() {
+route.get("/verify",function*(){
 
-    this.body = util.retSuccess()
+    return util.retSuccess("",null);
+
+});
+
+route.get("/signout", function *() {
+
+    this.body = util.retSuccess("退出成功。",null);
 
 });
 

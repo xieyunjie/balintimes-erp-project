@@ -17,12 +17,17 @@ app.use(logger());
 app.use(bodyParse());
 app.use(serve(path.join(__dirname, './static')));
 
+
+var authroute = require("./app/routes/auth/auth.server.route");
+app.use(authroute.routes());
+
 app.use(authMiddleware.jwtError);
 app.use(authMiddleware.jwtVerify().unless({ path:["/crm/province","/crm/cities/*"]}));//.;
 
 var crmroute = require("./app/routes/crm/crm.server.route");
-
 app.use(crmroute.routes());
+
+
 
 app.use(function *pageNotFound(next) {
     yield next;

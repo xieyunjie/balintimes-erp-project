@@ -23,10 +23,14 @@ middleware.ensureAuthorized = function*(next) {
 
 middleware.jwtError = function*(next) {
     try {
+        if(this.request.headers["authorization"]){
+            console.log(this.request.headers["authorization"]);
+        }
+
         yield next;
     } catch (err) {
         if (401 == err.status) {
-            //this.status = 401;
+            this.status = 401;
 
             this.body = util.retFailture('401 Unauthorized - Protected resource, use Authorization header to get access', null);
         } else {
@@ -37,8 +41,7 @@ middleware.jwtError = function*(next) {
 
 middleware.jwtVerify = function(){
 
-    return jwt({secret:setting.jwt.secret,
-                algorithm: setting.jwt.algorithm})
+    return jwt({secret:setting.jwt.secret, algorithm: setting.jwt.algorithm})
 
 };
 
