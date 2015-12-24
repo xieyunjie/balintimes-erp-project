@@ -49,7 +49,7 @@ route.post("/signin", function *() {
 
 route.get("/verify",function*(){
 
-    return util.retSuccess("",null);
+    this.body = util.retSuccess("",null);
 
 });
 
