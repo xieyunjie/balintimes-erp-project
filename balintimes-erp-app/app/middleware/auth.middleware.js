@@ -32,7 +32,7 @@ middleware.jwtError = function*(next) {
         if (401 == err.status) {
             this.status = 401;
 
-            this.body = util.retFailture('401 Unauthorized - Protected resource, use Authorization header to get access', null);
+            this.body = util.retFailture('401 Unauthorized', null);
         } else {
             throw err;
         }

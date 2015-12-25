@@ -11,6 +11,13 @@ var route = new router({
     prefix: '/auth'
 });
 
+route.all("*",function*(next){
+
+    console.log("auth all");
+    yield  next;
+
+});
+
 route.post("/signin", function *() {
 
     var ctx = this;
