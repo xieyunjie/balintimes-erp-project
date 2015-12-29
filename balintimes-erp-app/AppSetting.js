@@ -8,7 +8,7 @@ var setting = {
         "issuer":"balintimes-issuer",
         "secret": "secret",
         "algorithm": "HS256",
-        "expiresInMinutes":1 // 注意是分钟
+        "expiresInMinutes":60*8 // 注意是分钟
     }
 };
 

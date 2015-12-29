@@ -24,6 +24,8 @@ route.post("/att", koaBody({
     }
 }),crmCtrl.uploadatt);
 
+route.post("/list",crmCtrl.list);
+
 
 route.post('/profile', koaBody({
         multipart: true,
