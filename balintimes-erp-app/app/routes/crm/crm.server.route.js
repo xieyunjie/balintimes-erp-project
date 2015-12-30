@@ -26,6 +26,8 @@ route.post("/att", koaBody({
 
 route.post("/list",crmCtrl.list);
 
+route.get("/mediatype",crmCtrl.mediaType);
+
 
 route.post('/profile', koaBody({
         multipart: true,

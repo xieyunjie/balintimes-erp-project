@@ -38,6 +38,30 @@ signCustomerController.list = function*() {
     this.body = ret;
 };
 
+signCustomerController.mediaType = function*(){
+    var medialist = [];
+    for(var i = 0;i<5;i++){
+        medialist.push({
+            uid:faker.random.uuid(),
+            medianame:faker.commerce.department(),
+            isspecial:faker.random.boolean()
+        })
+    }
+
+    var typeList = [];
+    for(var i = 0;i<5;i++){
+        typeList.push({
+            uid:faker.random.uuid(),
+            cityname:faker.address.city(),
+            comment:faker.name.jobDescriptor(),
+            mediatypelist:medialist
+        })
+    }
+
+    this.body = util.retSuccess("",typeList);
+
+};
+
 signCustomerController.sign = function *() {
     var ctx = this;
 
