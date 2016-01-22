@@ -11,14 +11,15 @@ var jwt = require("koa-jwt"),
 var app = koa();
 
 app.keys = ['balintimes-session-secret'];
-app.use(session());
 
+app.use(session());
 app.use(logger());
 app.use(bodyParse());
-app.use(serve(path.join(__dirname, './static')));
 
+app.use(serve(path.join(__dirname, './public')));
 
-
+var vedioroute = require("./app/routes/resources/vedio.server.route");
+app.use(vedioroute.routes());
 
 app.use(authMiddleware.jwtError);
 app.use(authMiddleware.jwtVerify().unless({ path:["/crm/province","/crm/cities/*","/auth/signin"]}));//.;

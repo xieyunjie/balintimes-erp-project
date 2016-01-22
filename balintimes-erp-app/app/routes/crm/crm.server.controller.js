@@ -14,51 +14,51 @@ signCustomerController.list = function*() {
         totalcount = 55;
 
     var list = [];
-    for (var i = (page-1) * pagesize; i < page * pagesize && i < totalcount; i++) {
+    for (var i = (page - 1) * pagesize; i < page * pagesize && i < totalcount; i++) {
         var cus = {
-            id:faker.random.uuid(),
-            name:faker.company.companyName(),
-            industry:faker.company.bsBuzz(),
-            province:faker.address.state(),
-            city:faker.address.city(),
-            address:faker.address.streetAddress(),
-            phonenumber:faker.address.streetAddress(),
-            zipcode:faker.address.zipCode(),
-            comment:faker.name.jobDescriptor(),
-            brandname:faker.company.companyName(),
-            status:faker.random.boolean(),
-            signdate:faker.date.past()
+            id: faker.random.uuid(),
+            name: faker.company.companyName(),
+            industry: faker.company.bsBuzz(),
+            province: faker.address.state(),
+            city: faker.address.city(),
+            address: faker.address.streetAddress(),
+            phonenumber: faker.address.streetAddress(),
+            zipcode: faker.address.zipCode(),
+            comment: faker.name.jobDescriptor(),
+            brandname: faker.company.companyName(),
+            status: faker.random.boolean(),
+            signdate: faker.date.past()
         };
         list.push(cus);
     }
-    var ret = util.retSuccess("",list);
+    var ret = util.retSuccess("", list);
     ret.page = 1;
     ret.pagesize = 20;
-    ret.total  = totalcount;
+    ret.total = totalcount;
     this.body = ret;
 };
 
-signCustomerController.mediaType = function*(){
+signCustomerController.mediaType = function*() {
     var medialist = [];
-    for(var i = 0;i<5;i++){
+    for (var i = 0; i < 5; i++) {
         medialist.push({
-            uid:faker.random.uuid(),
-            medianame:faker.commerce.department(),
-            isspecial:faker.random.boolean()
+            uid: faker.random.uuid(),
+            medianame: faker.commerce.department(),
+            isspecial: faker.random.boolean()
         })
     }
 
     var typeList = [];
-    for(var i = 0;i<5;i++){
+    for (var j = 0; j < 5; j++) {
         typeList.push({
-            uid:faker.random.uuid(),
-            cityname:faker.address.city(),
-            comment:faker.name.jobDescriptor(),
-            mediatypelist:medialist
+            uid: faker.random.uuid(),
+            cityname: faker.address.city(),
+            comment: faker.name.jobDescriptor(),
+            mediatypelist: medialist
         })
     }
 
-    this.body = util.retSuccess("",typeList);
+    this.body = util.retSuccess("", typeList);
 
 };
 
